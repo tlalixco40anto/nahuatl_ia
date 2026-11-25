@@ -5,23 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NAHUATL IA</title>
 </head>
+
 <body>
   <h1>NAHUATL IA</h1>
-  <p>Ma yolihui to tlajtol.</p>
-  <p>Proyecto creado por Alejandro Hernández Hernández.</p>
+  <h3>Preservando la lengua Náhuatl</h3>
 
-  <button onclick="probarMicrofono()">Probar micrófono</button>
-  <p id="resultado">Esperando...</p>
+  <p>Ma yolihui to tlajtol.</p>
+
+  <button onclick="iniciarGrabacion()">
+    🎙️ Iniciar grabación
+  </button>
+
+  <button onclick="detenerGrabacion()">
+    ⏹️ Detener grabación
+  </button>
+
+  <p id="estado">Esperando...</p>
+
+  <audio id="reproductor" controls></audio>
+
+  <p>
+    <a id="descargar" style="display:none">
+      Descargar audio
+    </a>
+  </p>
+
+  <p>
+    Creado por Alejandro Hernández Hernández.
+  </p>
 
   <script>
-    async function probarMicrofono() {
-      const resultado = document.getElementById("resultado");
+    let grabadora;
+    let fragmentos = [];
+    let archivoAudio;
+
+    async function iniciarGrabacion() {
       try {
-        const flujo = await navigator.mediaDevices.getUserMedia({ audio: true });
-        resultado.textContent = "¡Micrófono autorizado! NAHUATL IA te escucha.";
-        flujo.getTracks().forEach(pista => pista.stop());
+        const flujo =
+          await navigator.mediaDevices.getUserMedia({
+            audio: true
+          });
+
+        fragmentos = [];
+
+        grabadora = new MediaRecorder(flujo);
+
+        grabadora.ondataavailable = function(event) {
+          if (event.data.size > 0) {
+            fragmentos.push(event.data);
+          }
+        };
+
+        grabadora.onstop = function() {
+          archivoAudio = new Blob(fragmentos, {
+            type: grabadora.mimeType
+          });
+
+          const direccion =
+            URL.createObjectURL(archivoAudio);
+
+          document.getElementById("reproductor").src =
+            direccion;
+
+          const enlace =
+            document.getElementById("descargar");
+
+          enlace.href = direccion;
+          enlace.download = "audio_nahuatl.webm";
+          enlace.style.display = "inline";
+
+          document.getElementById("estado").textContent =
+            "Grabación terminada. Puedes escuchar y descargar tu audio.";
+
+          flujo.getTracks().forEach(pista => pista.stop());
+        };
+
+        grabadora.start();
+
+        document.getElementById("estado").textContent =
+          "NAHUATL IA está grabando. Habla ahora.";
+
       } catch (error) {
-        resultado.textContent = "Error del micrófono: " + error.message;
+        document.getElementById("estado").textContent =
+          "Error: " + error.message;
+      }
+    }
+
+    function detenerGrabacion() {
+      if (grabadora && grabadora.state === "recording") {
+        grabadora.stop();
       }
     }
   </script>
