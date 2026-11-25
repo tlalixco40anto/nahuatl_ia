@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NAHUATL IA</title>
+</head>
+<body>
+  <h1>NAHUATL IA</h1>
+  <p>Ma yolihui to tlajtol.</p>
+  <p>Proyecto creado por Alejandro Hernández Hernández.</p>
+
+  <button onclick="probarMicrofono()">Probar micrófono</button>
+  <p id="resultado">Esperando...</p>
+
+  <script>
+    async function probarMicrofono() {
+      const resultado = document.getElementById("resultado");
+      try {
+        const flujo = await navigator.mediaDevices.getUserMedia({ audio: true });
+        resultado.textContent = "¡Micrófono autorizado! NAHUATL IA te escucha.";
+        flujo.getTracks().forEach(pista => pista.stop());
+      } catch (error) {
+        resultado.textContent = "Error del micrófono: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
