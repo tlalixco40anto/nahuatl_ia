@@ -13,6 +13,25 @@
   <p>Ma yolihui to tlajtol.</p>
 
   <button onclick="iniciarGrabacion()">
+   <h2>Ficha del hablante</h2>
+
+<label>Nombre o seudónimo:</label><br>
+<input type="text" id="hablante" placeholder="¿Cómo te identificamos?"><br><br>
+
+<label>Comunidad de origen:</label><br>
+<input type="text" id="comunidad" placeholder="Comunidad y municipio"><br><br>
+
+<label>Variante del náhuatl:</label><br>
+<input type="text" id="variante" value="Náhuatl de la Huasteca Veracruzana"><br><br>
+
+<label>Palabra o frase que vas a pronunciar:</label><br>
+<input type="text" id="frase" placeholder="Escribe la palabra o frase"><br><br>
+
+<label>
+  <input type="checkbox" id="consentimiento">
+  Autorizo que NAHUATL IA almacene y revise esta grabación para su proyecto de preservación lingüística.
+</label>
+<br><br>
     🎙️ Iniciar grabación
   </button>
 
@@ -40,6 +59,21 @@
     let archivoAudio;
 
     async function iniciarGrabacion() {
+      const hablante = document.getElementById("hablante").value.trim();
+const comunidad = document.getElementById("comunidad").value.trim();
+const variante = document.getElementById("variante").value.trim();
+const frase = document.getElementById("frase").value.trim();
+const consentimiento = document.getElementById("consentimiento").checked;
+
+if (!hablante || !comunidad || !variante || !frase) {
+  alert("Completa todos los datos de la ficha.");
+  return;
+}
+
+if (!consentimiento) {
+  alert("Necesitamos tu autorización antes de grabar.");
+  return;
+}
       try {
         const flujo =
           await navigator.mediaDevices.getUserMedia({
