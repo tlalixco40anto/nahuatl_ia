@@ -105,7 +105,14 @@ if (!consentimiento) {
             document.getElementById("descargar");
 
           enlace.href = direccion;
-          enlace.download = "audio_nahuatl.webm";
+         const nombreArchivo =
+  "Nahuatl_" +
+  hablante.replace(/\s+/g, "_") + "_" +
+  comunidad.replace(/\s+/g, "_") + "_" +
+  variante.replace(/\s+/g, "_") + "_" +
+  frase.replace(/\s+/g, "_") + ".webm";
+
+enlace.download = nombreArchivo;
           enlace.style.display = "inline";
 
           document.getElementById("estado").textContent =
