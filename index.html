@@ -117,7 +117,11 @@ enlace.download = nombreArchivo;
          audiosSesion.push({
   archivo: archivoAudio,
   nombre: nombreArchivo,
-  frase: frase
+  frase: frase,
+  hablante: hablante,
+  comunidad: comunidad,
+  variante: variante,
+  validacion: "Pendiente de revisión"
 });
           const lista = document.getElementById("listaAudios");
 const nuevoEnlace = document.createElement("a");
@@ -129,6 +133,7 @@ nuevoEnlace.textContent =
   " | Hablante: " + hablante +
   " | Comunidad: " + comunidad +
   " | Variante: " + variante;
+          nuevoEnlace.textContent += " | Estado: Pendiente de revisión";
 nuevoEnlace.style.display = "block";
 
 lista.appendChild(nuevoEnlace);
