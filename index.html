@@ -124,7 +124,11 @@ const nuevoEnlace = document.createElement("a");
 
 nuevoEnlace.href = direccion;
 nuevoEnlace.download = nombreArchivo;
-nuevoEnlace.textContent = "Descargar: " + frase;
+nuevoEnlace.textContent =
+  "Descargar: " + frase +
+  " | Hablante: " + hablante +
+  " | Comunidad: " + comunidad +
+  " | Variante: " + variante;
 nuevoEnlace.style.display = "block";
 
 lista.appendChild(nuevoEnlace);
