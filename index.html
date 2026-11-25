@@ -47,6 +47,7 @@
     <a id="descargar" style="display:none">
       Descargar audio
     </a>
+    <div id="listaAudios"></div>
   </p>
 
   <p>
@@ -57,7 +58,7 @@
     let grabadora;
     let fragmentos = [];
     let archivoAudio;
-
+let audiosSesion = [];
     async function iniciarGrabacion() {
       const hablante = document.getElementById("hablante").value.trim();
 const comunidad = document.getElementById("comunidad").value.trim();
@@ -113,6 +114,20 @@ if (!consentimiento) {
   frase.replace(/\s+/g, "_") + ".webm";
 
 enlace.download = nombreArchivo;
+         audiosSesion.push({
+  archivo: archivoAudio,
+  nombre: nombreArchivo,
+  frase: frase
+});
+          const lista = document.getElementById("listaAudios");
+const nuevoEnlace = document.createElement("a");
+
+nuevoEnlace.href = direccion;
+nuevoEnlace.download = nombreArchivo;
+nuevoEnlace.textContent = "Descargar: " + frase;
+nuevoEnlace.style.display = "block";
+
+lista.appendChild(nuevoEnlace);
           enlace.style.display = "inline";
 
           document.getElementById("estado").textContent =
